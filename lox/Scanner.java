@@ -84,9 +84,24 @@ public class Scanner {
             case '/':
                 if(match('/')) {
                     // a single line comment
-                    while(peek() != '\n' && !isAtEnd()) {
+                    while (peek() != '\n' && !isAtEnd()) {
                         advance();
                     }
+                } else if(match('*')) {
+                    // Multiline Comment
+                    while (!isAtEnd()) {
+                        if(peek() == '\n') {
+                          line++;
+                        }
+                        // End of Multiline Comment
+                        if(peek() == '*' && peekNext() == '/') {
+                            advance();
+                            advance();
+                            break;
+                        }
+                        advance();
+                    }
+
                 } else {
                     addToken(TokenType.SLASH);
                 }
@@ -127,7 +142,6 @@ public class Scanner {
     private void addToken(TokenType type) {
         addToken(type, null);
     }
-
     private void addToken(TokenType type, Object literal) {
         String text = source.substring(start, current);
         tokens.add(new Token(type, text, literal, line));

@@ -14,6 +14,7 @@ public class Lox {
     static boolean hadError = false;
 
     public static void main(String[] args) throws IOException {
+        System.out.println(System.getProperty("user.dir"));
         if(args.length > 1) {
             System.out.println("Usage: jlox [script]");
             System.exit(EX_USAGE);
