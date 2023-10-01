@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
 public class Lox {
     // sysexits.h UNIX exit codes
@@ -58,7 +59,7 @@ public class Lox {
         hadError = true;
     }
 
-    private static void error(int line, String message) {
+    static void error(int line, String message) {
         report(line, "", message);
     }
 }
