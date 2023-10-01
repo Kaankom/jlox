@@ -115,7 +115,20 @@ public class Scanner {
     }
 
     private void handleString() {
-        // Implement
+        while(peek() != '"' && !isAtEnd()) {
+            if(peek() == '\n') line++;
+            advance();
+        }
+        if(isAtEnd()) {
+            Lox.error(line, "Unterminated String");
+            return;
+        }
+
+        advance(); // the closing "
+
+        // Trim the surrounding quotes
+        String value = source.substring(start + 1, current -1);
+        addToken(TokenType.STRING, value);
     }
 
 }
