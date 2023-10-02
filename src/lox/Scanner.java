@@ -1,3 +1,5 @@
+package lox;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,7 +50,7 @@ public class Scanner {
             scanToken();
         }
 
-        // Add last Token and return
+        // Add last lox.Token and return
         tokens.add(new Token(TokenType.EOF, "", null, line));
         return tokens;
     }

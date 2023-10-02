@@ -1,3 +1,5 @@
+package lox;
+
 enum TokenType {
     // Single Character Tokens
     LEFT_PARENTHESES, RIGHT_PARENTHESES, LEFT_BRACE, RIGHT_BRACE,
