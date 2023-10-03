@@ -16,10 +16,10 @@ public class AstGenerator {
         String outputDir = args[0];
 
         defineAst(outputDir, "Expr", Arrays.asList(
-                "Binary : Expr left, Token operator, Expr right",
-                "Grouping : Expr expression",
-                "Literal : Object value",
-                "Unary : Token operator, Expr right"
+            "Binary : Expr left, Token operator, Expr right",
+            "Grouping : Expr expression",
+            "Literal : Object value",
+            "Unary : Token operator, Expr right"
         ));
     }
 
@@ -33,12 +33,19 @@ public class AstGenerator {
         writer.println();
         writer.println("abstract class " + baseName + " {");
 
+        defineVisitor(writer, baseName, types);
+
         // Generate the AST Classes
         for(String type : types) {
             String className = type.split(":")[0].trim();
             String fields = type.split(":")[1].trim();
             defineType(writer, baseName, className, fields);
         }
+
+        // The base accept() method
+        writer.println();
+        writer.println("\tabstract <R> R accept(Visitor<R> visitor);");
+
         writer.println("}");
         writer.close();
     }
@@ -60,10 +67,28 @@ public class AstGenerator {
 
         writer.println("\t\t}");
 
+        // Visitor Pattern.
+        writer.println();
+        writer.println("\t\t@Override");
+        writer.println("\t\t<R> R accept(Visitor<R> visitor) {");
+        writer.println("\t\t\treturn visitor.visit" + className + baseName + "(this);");
+        writer.println("\t\t}");
+
         // Fields
         writer.println();
         for(String field : fields) {
             writer.println("\t\tfinal " + field + ";");
+        }
+
+        writer.println("\t}");
+    }
+
+    private static void defineVisitor(PrintWriter writer, String baseName, List<String> types) {
+        writer.println(("\tinterface Visitor<R> {"));
+
+        for(String type : types) {
+            String typeName = type.split(":")[0].trim();
+            writer.println("\t\tR visit" + typeName + baseName + "(" + typeName + " " + baseName.toLowerCase() + ");");
         }
 
         writer.println("\t}");
