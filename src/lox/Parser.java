@@ -7,11 +7,21 @@ import static lox.TokenType.*;
  * This Parser uses the Recursive Descent method
  */
 public class Parser {
+    private static class ParseError extends RuntimeException {}
+
     private final List<Token> tokens;
     private int current = 0;
 
     Parser(List<Token> tokens) {
         this.tokens = tokens;
+    }
+
+    Expr parse() {
+        try {
+            return expression();
+        } catch (ParseError error) {
+            return null;
+        }
     }
 
     private Expr expression() {
@@ -59,7 +69,7 @@ public class Parser {
     }
 
     private Expr unary() {
-        while(match(BANG, MINUS)) {
+        if(match(BANG, MINUS)) {
             Token operator = previous();
             Expr right = unary();
             return new Expr.Unary(operator, right);
@@ -77,6 +87,7 @@ public class Parser {
             consume(RIGHT_PARENTHESES, "Expect ')' after expression.");
             return new Expr.Grouping(expr);
         }
+        throw error(peek(), "Expect expression.");
     }
 
     private boolean match(TokenType... types) {
@@ -96,7 +107,7 @@ public class Parser {
 
     private boolean check(TokenType type) {
         if(isAtEnd()) return false;
-        return peek().type ==type;
+        return peek().type == type;
     }
 
     private Token advance() {
@@ -114,6 +125,30 @@ public class Parser {
 
     private Token previous() {
         return tokens.get(current -1);
+    }
+
+    private ParseError error(Token token, String message) {
+        Lox.error(token, message);
+        return new ParseError();
+    }
+
+    /**
+     * Synchronize after Panic to the beginning of a Statement
+     */
+    private void synchronize() {
+        advance();
+
+        // If the last Token is a semicolon, we're at the beginning of a new Statement
+        while(!isAtEnd()) {
+            if (previous().type == SEMICOLON) return;
+        }
+
+        switch (peek().type) {
+            case CLASS: case FOR: case FUN: case IF:
+            case PRINT: case RETURN: case VAR: case WHILE:
+                return;
+        }
+        advance();
     }
 
 }
