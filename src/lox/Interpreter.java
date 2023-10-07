@@ -51,6 +51,7 @@ class Interpreter implements Expr.Visitor<Object> {
             case EQUAL_EQUAL:
                 return isEqual(left, right);
         }
+        return null;
     }
 
     /**
