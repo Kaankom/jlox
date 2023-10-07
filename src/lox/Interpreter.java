@@ -42,8 +42,12 @@ class Interpreter implements Expr.Visitor<Object> {
                 if(left instanceof Double && right instanceof Double) {
                     return (double)left + (double)right;
                 }
-                if(left instanceof String && right instanceof String) {
-                    return (String)left + (String)right;
+                if(left instanceof String) {
+                    return left + stringify(right);
+                }
+                // TODO: there is still a NullPointerException when the right operand is "nil"
+                if(left == null) {
+                    throw new RuntimeError(expr.operator, "Operand can't be run on nil values");
                 }
                 throw new RuntimeError(expr.operator, "Operand must be two numbers or two strings.");
             case BANG_EQUAL:
