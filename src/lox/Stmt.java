@@ -7,7 +7,6 @@ abstract class Stmt {
 		R visitExpressionStmt(Expression stmt);
 		R visitPrintStmt(Print stmt);
 	}
-
 	static class Expression extends Stmt {
 		Expression(Expr expression) {
 			this.expression = expression;
@@ -20,7 +19,6 @@ abstract class Stmt {
 
 		final Expr expression;
 	}
-
 	static class Print extends Stmt {
 		Print(Expr expression) {
 			this.expression = expression;
