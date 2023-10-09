@@ -21,6 +21,7 @@ public class AstGenerator {
             "Grouping : Expr expression",
             "Literal : Object value",
             "Variable : Token name",
+            "Logical : Expr left, Token operator, Expr right",
             "Unary : Token operator, Expr right"
         ));
 
