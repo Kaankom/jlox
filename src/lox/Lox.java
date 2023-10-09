@@ -28,7 +28,7 @@ public class Lox {
         if(args.length == 1) {
             runFile(args[0]);
         }
-        runPrompt(); // REPL
+        runREPLPrompt();
     }
 
     private static void runFile(String path) throws IOException {
@@ -40,7 +40,7 @@ public class Lox {
         if(hadRuntimeError) System.exit(EX_SOFTWARE);
     }
 
-    private static void runPrompt() throws IOException {
+    private static void runREPLPrompt() throws IOException {
         InputStreamReader userInput = new InputStreamReader(System.in);
         BufferedReader buffReader = new BufferedReader(userInput);
 
