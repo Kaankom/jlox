@@ -65,12 +65,18 @@ public class Scanner {
             case '}': addToken(TokenType.RIGHT_BRACE); break;
             case ',': addToken(TokenType.COMMA); break;
             case '.': addToken(TokenType.DOT); break;
-            case '-': addToken(TokenType.MINUS); break;
-            case '+': addToken(TokenType.PLUS); break;
+            //case '-': addToken(TokenType.MINUS); break;
+            //case '+': addToken(TokenType.PLUS); break;
             case ';': addToken(TokenType.SEMICOLON); break;
             case '*': addToken(TokenType.STAR); break;
 
             // One or Two Character Tokens
+            case '+':
+                addToken(match('+') ? TokenType.PLUSPLUS : TokenType.PLUS);
+                break;
+            case '-':
+                addToken(match('-') ? TokenType.MINUSMINUS : TokenType.MINUS);
+                break;
             case '!':
                 addToken(match('=') ? TokenType.BANG_EQUAL : TokenType.BANG);
                 break;
