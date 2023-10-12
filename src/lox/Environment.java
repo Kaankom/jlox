@@ -18,7 +18,7 @@ class Environment {
     /**
      * We don't check if the Key is already in the Map.
      * This is on purpose.
-     * This way we can redefine global variables, since it  allows
+     * This way we can redefine global variables, since it allows
      * for better UserExperience in the REPL
      */
     void define(String name, Object value) {

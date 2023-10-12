@@ -49,6 +49,8 @@ public class Lox {
             String loxLine = buffReader.readLine();
             if(loxLine == null) break;
             run(loxLine);
+
+            // set hadError to false again for the next input
             hadError = false;
         }
     }
