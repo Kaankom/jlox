@@ -72,10 +72,10 @@ public class Scanner {
 
             // One or Two Character Tokens
             case '+':
-                addToken(match('+') ? TokenType.PLUSPLUS : TokenType.PLUS);
+                addToken(match('+') ? TokenType.PLUS_PLUS : TokenType.PLUS);
                 break;
             case '-':
-                addToken(match('-') ? TokenType.MINUSMINUS : TokenType.MINUS);
+                addToken(match('-') ? TokenType.MINUS_MINUS : TokenType.MINUS);
                 break;
             case '!':
                 addToken(match('=') ? TokenType.BANG_EQUAL : TokenType.BANG);
