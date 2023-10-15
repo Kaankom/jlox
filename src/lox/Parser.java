@@ -238,6 +238,10 @@ public class Parser {
         // when the next token in not ')' then there are arguments
         if(!check(RIGHT_PARENTHESES)) {
             do {
+                // limit argument count to 255 (Java style)
+                if(arguments.size() >= 255) {
+                    error(peek(), "Can't have more than 255 arguments");
+                }
                 arguments.add(expression());
             // If whe don't find a comma, then the list of arguments are done.
             } while(match(COMMA));
