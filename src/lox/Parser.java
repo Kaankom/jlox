@@ -230,7 +230,36 @@ public class Parser {
             Expr right = unary();
             return new Expr.Unary(operator, right);
         }
-        return primary();
+        return call();
+    }
+
+    private Expr finishCall(Expr callee) {
+        List<Expr> arguments = new ArrayList<>();
+        // when the next token in not ')' then there are arguments
+        if(!check(RIGHT_PARENTHESES)) {
+            do {
+                arguments.add(expression());
+            // If whe don't find a comma, then the list of arguments are done.
+            } while(match(COMMA));
+        }
+        // This checks if the next Token is a ')'.
+        // This is the case when no arguments are provided: 0 argument func call.
+        Token parentheses = consume(RIGHT_PARENTHESES, "Expect ')' after arguments.");
+
+        return new Expr.Call(callee, parentheses, arguments);
+    }
+
+    private Expr call() {
+        Expr expr = primary();
+
+        while(true) {
+            if(match(LEFT_PARENTHESES)) {
+                expr = finishCall(expr);
+            } else {
+                break;
+            }
+        }
+        return expr;
     }
 
     private Expr primary() {
