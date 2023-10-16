@@ -33,6 +33,7 @@ public class AstGenerator {
                 "If : Expr condition, Stmt thenBranch," +
                         " Stmt elseBranch",
                 "Var : Token name, Expr initializer",
+                "Return : Token keyword, Expr value",
                 "Print : Expr expression",
                 "While : Expr condition, Stmt body"
         ));
